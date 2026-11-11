@@ -1,0 +1,9 @@
+lark<2,>=1.2
+
+[experiment]
+matplotlib<4,>=3.7
+numpy<3,>=1.24
+pandas<4,>=2.0
+
+[test]
+pytest<10,>=7.4
