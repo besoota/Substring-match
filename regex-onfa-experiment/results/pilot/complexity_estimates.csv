@@ -1,0 +1,3 @@
+pattern_name,estimated_exponent,log_log_r_squared,fit_min_n,fit_max_n
+literal,0.988396351181638,0.9994603442053994,11000,20000
+positive_lookahead,0.9995968617269961,0.9994310803063273,11000,20000
