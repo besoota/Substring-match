@@ -29,11 +29,7 @@ def parse_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
-LABEL = {
-    "1": "(a*)*(?=.*b.*)",
-    "2": "a*(?=.*b.*)",
-    "3": "(?=.*a.*)(?=.*b.*)",
-}
+
 def save_line_plot(
     frame: pd.DataFrame,
     y_column: str,
@@ -43,10 +39,15 @@ def save_line_plot(
     log_scale: bool = False,
     fit_degree: int | None = None,
 ) -> None:
-    figure, axis = plt.subplots(figsize=(6,9))
+    figure, axis = plt.subplots(figsize=(9, 6))
 
     for pattern_name, group in frame.groupby("pattern_name"):
         group = group.sort_values("text_length")
+        display_name = (
+            str(group["source_regex"].iloc[0])
+            if "source_regex" in group.columns
+            else str(pattern_name)
+        )
         x_values = group["text_length"].to_numpy(dtype=float)
         y_values = group[y_column].to_numpy(dtype=float)
 
@@ -56,7 +57,7 @@ def save_line_plot(
                 y_values,
                 marker="o",
                 markersize=3,
-                label=pattern_name,
+                label=display_name,
             )
             continue
 
@@ -64,7 +65,7 @@ def save_line_plot(
             x_values,
             y_values,
             s=18,
-            label=f"{pattern_name} data",
+            label=f"{display_name}",
         )
 
         if len(x_values) <= fit_degree:
@@ -91,7 +92,7 @@ def save_line_plot(
             fitted_y,
             linewidth=1.5,
             label=(
-                f"{LABEL[pattern_name]}\npoly fit, "
+                f"{display_name}\npoly fit, "
                 f"degree={fit_degree}"
             ),
         )
@@ -100,7 +101,7 @@ def save_line_plot(
         axis.set_xscale("log")
         axis.set_yscale("log")
 
-    axis.set_xlabel("Size of string")
+    axis.set_xlabel("Text length n")
     axis.set_ylabel(y_label)
     axis.set_title(title)
     axis.grid(True, alpha=0.3)
@@ -115,6 +116,11 @@ def calculate_complexity_estimates(frame: pd.DataFrame) -> pd.DataFrame:
 
     for pattern_name, group in frame.groupby("pattern_name"):
         group = group.sort_values("text_length")
+        source_regex = (
+            str(group["source_regex"].iloc[0])
+            if "source_regex" in group.columns
+            else str(pattern_name)
+        )
         tail = group.iloc[len(group) // 2 :]
 
         log_n = np.log(tail["text_length"].to_numpy(dtype=float))
@@ -129,6 +135,7 @@ def calculate_complexity_estimates(frame: pd.DataFrame) -> pd.DataFrame:
         rows.append(
             {
                 "pattern_name": pattern_name,
+                "source_regex": source_regex,
                 "estimated_exponent": exponent,
                 "log_log_r_squared": r_squared,
                 "fit_min_n": int(tail["text_length"].min()),
@@ -143,6 +150,11 @@ def calculate_doubling_ratios(frame: pd.DataFrame) -> pd.DataFrame:
     rows = []
 
     for pattern_name, group in frame.groupby("pattern_name"):
+        source_regex = (
+            str(group["source_regex"].iloc[0])
+            if "source_regex" in group.columns
+            else str(pattern_name)
+        )
         times = dict(zip(group["text_length"], group["median_ns"]))
         for n in sorted(times):
             if 2 * n not in times:
@@ -150,6 +162,7 @@ def calculate_doubling_ratios(frame: pd.DataFrame) -> pd.DataFrame:
             rows.append(
                 {
                     "pattern_name": pattern_name,
+                    "source_regex": source_regex,
                     "n": int(n),
                     "two_n": int(2 * n),
                     "time_ratio_T_2n_over_T_n": times[2 * n] / times[n],
