@@ -21,17 +21,17 @@ from onfa_regex import build_ast, evaluate_ast
 TEXT_LENGTHS = list(range(1_000, 20_001, 1_000))
 
 PATTERNS = {
-    "1": "(a*)*(?=.*b.*)",
-    "2": "a*(?=.*b.*)",
-    "3": "(?=.*a.*)(?=.*b.*)",
+    "nested_star_with_lookahead": "(a*)*(?=.*b.*)",
+    "star_with_lookahead": "a*(?=.*b.*)",
+    "two_lookaheads": "(?=.*a.*)(?=.*b.*)",
 }
 
 # Notation used in the prior study.  The matcher itself accepts PCRE-style
 # (?=...) syntax, while the source uses its own (?>...) syntax.
 SOURCE_PATTERNS = {
-    "1": "(a*)*(?>.*b.*)",
-    "2": "a*(?>.*b.*)",
-    "3": "(?>.*a.*)(?>.*b.*)",
+    "nested_star_with_lookahead": "(a*)*(?>.*b.*)",
+    "star_with_lookahead": "a*(?>.*b.*)",
+    "two_lookaheads": "(?>.*a.*)(?>.*b.*)",
 }
 
 
