@@ -1,0 +1,10 @@
+README.md
+pyproject.toml
+src/onfa_regex/__init__.py
+src/onfa_regex/engine.py
+src/onfa_regex_experiment.egg-info/PKG-INFO
+src/onfa_regex_experiment.egg-info/SOURCES.txt
+src/onfa_regex_experiment.egg-info/dependency_links.txt
+src/onfa_regex_experiment.egg-info/requires.txt
+src/onfa_regex_experiment.egg-info/top_level.txt
+tests/test_engine.py
