@@ -1,0 +1,4 @@
+strategy,regex,slope_us_per_character,intercept_ms,length_count
+prepared,(a*)*(?=.*b.*),1.2676788819548872,0.007167789473687236,20
+prepared,a*(?=.*b.*),1.300757620300752,-0.07431686315789676,20
+prepared,(?=.*a.*)(?=.*b.*),1.2687424120300752,0.2975432736842105,20
