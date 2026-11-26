@@ -1,4 +1,0 @@
-strategy,regex,slope_us_per_character,intercept_ms,length_count
-baseline,(a*)*(?=.*b.*),5.136296767669173,0.20945188947368365,20
-baseline,a*(?=.*b.*),5.024193022556391,-0.7125559368421008,20
-baseline,(?=.*a.*)(?=.*b.*),12.094907706015038,2.692729136842104,20
